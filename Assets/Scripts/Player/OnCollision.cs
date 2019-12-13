@@ -14,7 +14,7 @@ public class OnCollision : MonoBehaviour {
 	private int horizontalRayCount;
 	private int verticalRayCount;
 
-	private void Start() {
+	public void Start() {
 		controller = GetComponent<PlayerController>();
 		collider = GetComponent<BoxCollider2D>();
 		verticalRayCount = (int)(collider.bounds.extents.x * 2 / density);
@@ -22,11 +22,11 @@ public class OnCollision : MonoBehaviour {
 	}
 
 	// Update is called once per frame
-	void Update() {
+	public void Update() {
 		UpdateHits();
 	}
 
-	private void LateUpdate() {
+	public void LateUpdate() {
 		HandleHits();
 	}
 
@@ -82,7 +82,7 @@ public class OnCollision : MonoBehaviour {
 		}
 	}
 
-	protected void HandleHits() {
+	public virtual void HandleHits() {
 		foreach (var hit in hits) {
 			if (hit.collider != null) {
 				//Debug.Log($"碰撞检测到 {hit.transform.name}");
