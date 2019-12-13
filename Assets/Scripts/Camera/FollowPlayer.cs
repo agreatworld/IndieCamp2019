@@ -55,3 +55,4 @@ public class FollowPlayer : MonoBehaviour {
 		transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref currentVelocity, smoothTime);
 	}
 }
+
