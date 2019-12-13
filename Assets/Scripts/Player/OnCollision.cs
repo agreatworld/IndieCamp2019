@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class OnCollision : MonoBehaviour {
 
-	private List<RaycastHit2D> hits = new List<RaycastHit2D>();
+	protected List<RaycastHit2D> hits = new List<RaycastHit2D>();
 	private PlayerController controller;
 	private new BoxCollider2D collider;
 	public float density = 0.2f;
@@ -82,7 +82,7 @@ public class OnCollision : MonoBehaviour {
 		}
 	}
 
-	private void HandleHits() {
+	protected void HandleHits() {
 		foreach (var hit in hits) {
 			if (hit.collider != null) {
 				//Debug.Log($"碰撞检测到 {hit.transform.name}");
