@@ -10,10 +10,24 @@ public class Shadow : MonoBehaviour {
 	public float speed = 5f;
 	public float minMovableY;
 	public float maxMovableY;
-	private void Update() {
+    private float timer = 0;
+    private float maxAlone = 60f;
+    private GameObject player;
+    private void Awake()
+    {
+        player = GameObject.FindWithTag("Player");
+    }
+    private void Update() {
 		goasts = new List<GameObject>(GameObject.FindGameObjectsWithTag("Goast"));
 		MoveByGetAxis();
-	}
+        Accompany();
+        if (player.GetComponent<Player>().alone && !player.GetComponent<Player>().catching)
+        {
+            timer += Time.deltaTime;
+            Transparent();
+
+        }
+    }
 	private void LateUpdate() {
 		Probe();
 	}
@@ -42,4 +56,24 @@ public class Shadow : MonoBehaviour {
 		velocity = translation;
 		transform.Translate(translation);
 	}
+    private void Transparent()
+    {
+        gameObject.GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, 0.00028f);
+    }
+    private void Accompany()
+    {
+        if((gameObject.transform.position-player.transform.position).magnitude<1f)
+        {
+            timer = 0f;
+            player.GetComponent<Player>().alone = false;
+            player.GetComponent<Player>().timer = 0f;
+            gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+            player.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+        }
+        else
+        {
+            player.GetComponent<Player>().alone = true;
+        }
+
+    }
 }

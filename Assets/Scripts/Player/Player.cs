@@ -5,18 +5,24 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    public float hp;
+    public float hp=100f;
     public List<RaycastHit2D> hits;
     public OnCollision collision;
-    private bool catching = false;
+    public bool catching = false;
     private Image forward;
     private GameObject slider;
     public int catchCount = 0;
+    private GameObject fightGoast;
+    public float timer = 0;
+    private float maxAlone = 60f;
+    public bool alone=true;
+    private Image hurt;
     private void Awake()
     {
         collision = GetComponent<OnCollision>();
         forward = GameObject.FindWithTag("Forward").GetComponent<Image>();
         slider = GameObject.FindWithTag("Slider");
+        hurt = GameObject.FindWithTag("Hurt").GetComponent<Image>();
     }
     private void Start()
     {
@@ -30,8 +36,14 @@ public class Player : MonoBehaviour
         {
             Catching();
         }
-
-
+        if (alone && !catching)
+        {
+            timer += Time.deltaTime;
+            Transparent();
+            if (timer > maxAlone)
+                Dead(); 
+        }
+        hurt.color = new Color(1, 1, 1, 1 - hp / 100);
     }
     private void CatchGoast()
     {
@@ -47,8 +59,8 @@ public class Player : MonoBehaviour
                     {
                         catching = true;
                         forward.fillAmount = 0.5f;
+                        fightGoast = hits[i].collider.gameObject;
                     }
-   
                 }
             }
         }
@@ -67,19 +79,26 @@ public class Player : MonoBehaviour
             catchCount++;
             slider.SetActive(false);
             catching = false;
+            Destroy(fightGoast);
         }
         else if (forward.fillAmount == 0)
         {
             slider.SetActive(false);
             catching = false;
-            for (int i = 0; i < hits.Count; i++)
-            {
-                if (hits[i].collider.tag == "Goast")
-                {
-                    hits[i].collider.gameObject.transform.position += (hits[i].collider.gameObject.transform.position - transform.position).normalized * 0.2f;
-                }
-            }
+            fightGoast.transform.position += (fightGoast.transform.position - transform.position).normalized * 0.2f;
         }
             
+    }
+    private void Transparent()
+    {
+        gameObject.GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, 0.00028f);
+    }
+    private void Dead()
+    {
+        Debug.Log("Dead");
+    }
+    private void ChangeHurt()
+    {
+       
     }
 }

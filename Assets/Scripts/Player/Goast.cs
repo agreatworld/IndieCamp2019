@@ -11,7 +11,8 @@ public class Goast : MonoBehaviour
     public float protectRange = 2f;
     public float attackRange = 2.5f;
     public bool catched = false;
-
+    private float timer = 0f;
+    public float attackInterval = 1f;
     private void Awake()
     {
         shadow = GameObject.FindWithTag("Shadow");
@@ -45,7 +46,7 @@ public class Goast : MonoBehaviour
         {
             if ((gameObject.transform.position - player.transform.position).magnitude < attackRange&&catched==false)
             {
-                Debug.Log("Attack");
+                Attack();
                 vec = Vector3.zero;
             }
             else
@@ -71,5 +72,15 @@ public class Goast : MonoBehaviour
         if (speed.CompareTo(0f)<0.01f)
             speed = 0.05f;
         speed -= 0.05f;
+    }
+    private void Attack()
+    {
+        Debug.Log(timer);
+        timer += Time.deltaTime;
+        if(timer>attackInterval)
+        {
+            player.GetComponent<Player>().hp -= 15f;
+            timer = 0f;
+        }
     }
 }
