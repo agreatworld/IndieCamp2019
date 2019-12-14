@@ -40,7 +40,10 @@ public class PlayerController : MonoBehaviour {
 		}
 		velocity = translation;
 		transform.Translate(translation);
-        if(translation!=Vector2.zero)
+        if (translation != Vector2.zero)
+        {
+
+        }
 	}
 
 
