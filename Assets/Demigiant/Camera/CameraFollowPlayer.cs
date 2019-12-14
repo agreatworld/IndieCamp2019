@@ -17,19 +17,9 @@ public class CameraFollowPlayer : MonoBehaviour {
 	public GameObject target;
 
 	/// <summary>
-	///  地图边界
-	/// </summary>
-	public GameObject mapBound;
-
-	/// <summary>
-	/// 地图边界碰撞器
-	/// </summary>
-	private BoxCollider2D mapCollider;
-
-	/// <summary>
 	/// 相机移动的时长
 	/// </summary>
-	private float smoothTime = 0.1f;
+	private float smoothTime = 0.3f;
 
 	private Vector3 currentVelocity = Vector3.zero;
 
@@ -42,7 +32,6 @@ public class CameraFollowPlayer : MonoBehaviour {
 	// Start is called before the first frame update
 	void Start() {
 		camera = GetComponent<Camera>();
-		mapCollider = mapBound.GetComponent<BoxCollider2D>();
 		cameraViewWidthExtends = camera.orthographicSize * camera.aspect;
 		controller = target.GetComponent<PlayerController>();
 	}
@@ -70,12 +59,13 @@ public class CameraFollowPlayer : MonoBehaviour {
 			if (transform.position.x < 0) {
 				return;
 			}
-			Vector3 targetPosition = target.transform.TransformPoint(cameraViewWidthExtends * 0.5f, 0, -10);
+			Vector3 targetPosition = target.transform.TransformPoint(-cameraViewWidthExtends * 0.5f, 0, 10);
 			targetPosition.y = 0;
 			if (controller.velocity.x > 0) {
 				isMovingLeft = false;
 			}
 			transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref currentVelocity, smoothTime);
+			Debug.Log(targetPosition);
 		}
 		
 

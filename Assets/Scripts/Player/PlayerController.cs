@@ -12,7 +12,9 @@ public class PlayerController : MonoBehaviour {
 
 	public float minMovableY;
 	public float maxMovableY;
+	private Animator animator;
 	private void Start() {
+		animator = gameObject.GetComponent<Animator>();
 
 	}
 
@@ -39,11 +41,15 @@ public class PlayerController : MonoBehaviour {
 			translation = new Vector2(translationX, translation.y);
 		}
 		velocity = translation;
-		transform.Translate(translation);
-        if (translation != Vector2.zero)
-        {
-
-        }
+		transform.Translate(translation,Space.World);
+		if (translation != Vector2.zero) {
+			animator.SetBool("IsRun", true);
+		} else
+			animator.SetBool("IsRun", false);
+		if (translation.x > 0)
+			gameObject.transform.eulerAngles = new Vector3(0, 0, 0);
+		if (translation.x < 0)
+			gameObject.transform.eulerAngles = new Vector3(0, 180, 0);
 	}
 
 
