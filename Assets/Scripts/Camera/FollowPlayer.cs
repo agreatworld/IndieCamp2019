@@ -11,8 +11,6 @@ public class FollowPlayer : MonoBehaviour {
 
 	private float cameraViewWidthExtends;
 
-	private float cameraViewHeightExtends;
-
 	/// <summary>
 	/// 跟随目标
 	/// </summary>
@@ -35,24 +33,51 @@ public class FollowPlayer : MonoBehaviour {
 
 	private Vector3 currentVelocity = Vector3.zero;
 
+	private PlayerController controller;
+
+	private bool isMovingRight = false;
+
+	private bool isMovingLeft = false;
+
 	// Start is called before the first frame update
 	void Start() {
 		camera = GetComponent<Camera>();
 		mapCollider = mapBound.GetComponent<BoxCollider2D>();
-		cameraViewHeightExtends = camera.orthographicSize;
-		cameraViewWidthExtends = cameraViewHeightExtends * camera.aspect;
+		cameraViewWidthExtends = camera.orthographicSize * camera.aspect;
+		controller = target.GetComponent<PlayerController>();
 	}
 
 	// Update is called once per frame
 	void Update() {
-		Vector3 targetPosition = new Vector3(target.transform.position.x, target.transform.position.y, transform.position.z);
-		if (targetPosition.x - cameraViewWidthExtends < mapCollider.bounds.min.x || targetPosition.x + cameraViewWidthExtends > mapCollider.bounds.max.x) {
-			targetPosition.x = transform.position.x;
+		Debug.Log(isMovingRight);
+		// 判断镜头是否需要移动
+		if (target.transform.position.x - transform.position.x > cameraViewWidthExtends * 0.75f) {
+			isMovingRight = true;
+		} else if (transform.position.x - target.transform.position.x > cameraViewWidthExtends * 0.75f) {
+			isMovingLeft = true;
 		}
-		if (targetPosition.y - cameraViewHeightExtends < mapCollider.bounds.min.y || targetPosition.y + cameraViewHeightExtends > mapCollider.bounds.max.y) {
-			targetPosition.y = transform.position.y;
+		if (isMovingRight) {
+			// 镜头右移
+			Vector3 targetPosition = target.transform.TransformPoint(-cameraViewWidthExtends * 0.75f, 0, -10);
+			targetPosition.y = 0;
+			if (controller.velocity.x < 0) {
+				isMovingRight = false;
+			}
+
+			transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref currentVelocity, smoothTime);
+
+		} else if (isMovingLeft) {
+			Vector3 targetPosition = target.transform.TransformPoint(cameraViewWidthExtends * 0.75f, 0, -10);
+			targetPosition.y = 0;
+			if (controller.velocity.x > 0) {
+				isMovingLeft = false;
+			}
+			transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref currentVelocity, smoothTime);
 		}
-		transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref currentVelocity, smoothTime);
+		
+
 	}
+
 }
+
 
