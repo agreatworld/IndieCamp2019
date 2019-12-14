@@ -79,7 +79,7 @@ public class Goast : MonoBehaviour
         timer += Time.deltaTime;
         if(timer>attackInterval)
         {
-            player.GetComponent<Player>().hp -= 15f;
+            player.GetComponent<Player>().hp -= 1.5f;
             timer = 0f;
         }
     }

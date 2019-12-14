@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-	private float horizontalSpeed = 8;
-	private float verticalSpeed = 8;
+    private float speed = 5.6f;
 	[NonSerialized]
 	public Vector2 velocity;
 
@@ -27,8 +26,8 @@ public class PlayerController : MonoBehaviour {
 
 	private void MoveByGetAxis() {
 
-		float translationX = Input.GetAxis("Horizontalad") * Time.deltaTime * horizontalSpeed;
-		float translationY = Input.GetAxis("Verticalws") * Time.deltaTime * verticalSpeed;
+		float translationX = Input.GetAxis("Horizontalad") * Time.deltaTime * speed;
+		float translationY = Input.GetAxis("Verticalws") * Time.deltaTime * speed;
 		if (transform.position.y + translationY > maxMovableY) {
 			translationY = Mathf.Abs(transform.position.y - maxMovableY) < 0.1f ? 0 : maxMovableY - transform.position.y;
 		} else if (transform.position.y + translationY < minMovableY) {

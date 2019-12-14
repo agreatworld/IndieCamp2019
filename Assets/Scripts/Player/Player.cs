@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     private float maxAlone = 60f;
     public bool alone=true;
     private Image hurt;
+    public GameObject Goast;
     private void Awake()
     {
         collision = GetComponent<OnCollision>();
