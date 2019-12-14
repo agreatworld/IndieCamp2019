@@ -66,6 +66,10 @@ public class CameraFollowPlayer : MonoBehaviour {
 			transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref currentVelocity, smoothTime);
 
 		} else if (isMovingLeft) {
+			// 镜头左移
+			if (transform.position.x < 0) {
+				return;
+			}
 			Vector3 targetPosition = target.transform.TransformPoint(cameraViewWidthExtends * 0.5f, 0, -10);
 			targetPosition.y = 0;
 			if (controller.velocity.x > 0) {

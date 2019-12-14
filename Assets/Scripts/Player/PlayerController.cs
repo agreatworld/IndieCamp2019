@@ -27,14 +27,18 @@ public class PlayerController : MonoBehaviour {
 
 		float translationX = Input.GetAxis("Horizontalad") * Time.deltaTime * horizontalSpeed;
 		float translationY = Input.GetAxis("Verticalws") * Time.deltaTime * verticalSpeed;
-        if (transform.position.y + translationY > maxMovableY) {
+		if (transform.position.y + translationY > maxMovableY) {
 			translationY = Mathf.Abs(transform.position.y - maxMovableY) < 0.1f ? 0 : maxMovableY - transform.position.y;
 		} else if (transform.position.y + translationY < minMovableY) {
-			translationY = Mathf.Abs(transform.position.y - minMovableY) < 0.1f ? 0 : transform.position.y - minMovableY;
+			translationY = Mathf.Abs(transform.position.y - minMovableY) < 0.1f ? 0 : minMovableY - transform.position.y;
 		}
 
-        Vector2 translation = new Vector2(translationX, Mathf.Clamp(translationY, minMovableY, maxMovableY));
-        velocity = translation;
+		Vector2 translation = new Vector2(translationX, translationY);
+		if (transform.position.x < 0) {
+			translationX = translationX < 0 ? 0 : translationX;
+			translation = new Vector2(translationX, translation.y);
+		}
+		velocity = translation;
 		transform.Translate(translation);
 	}
 

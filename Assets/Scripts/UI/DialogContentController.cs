@@ -2,60 +2,110 @@
 using UnityEngine;
 using DG.Tweening;
 using System.Collections.Generic;
+using System.IO;
+using System;
 
 public class DialogContentController : MonoBehaviour {
 
-	private Text content;
-
-	private int index = 0;
-
+	private Text text;
+	private bool ifPlayNext = false;
+	private Vector2 dialogRectShowing = new Vector2();
+	public GameObject dialog;
+	private Vector2 dialogRect = new Vector2();
+	private Tweener tweener;
 	public List<string> contentList = new List<string>();
+	private List<List<string>> segments = new List<List<string>>();
+	public Transform player;
+	private bool hasPlayedAct1 = false;
+	private bool hasPlayedAct2 = false;
+	private bool hasPlayedAct3 = false;
+	private bool hasPlayedAct4 = false;
 	// Start is called before the first frame update
 	void Start() {
-		content = GetComponent<Text>();
-		InitDialogContentList();
+		// 读取剧本
+		try {
+			using (StreamReader sr = new StreamReader("dialog.txt")) {
+				string content = sr.ReadToEnd();
+				string[] segment = content.Split('#');
+				foreach (var s in segment) {
+					segments.Add(new List<string>(s.Split('\n')));
+				}
+			}
+		} catch (Exception e) {
+			// 向用户显示出错消息
+			Debug.LogError(e.Message);
+		}
+		dialogRect = dialog.GetComponent<RectTransform>().anchoredPosition;
+		dialogRectShowing = dialogRect;
+		text = GetComponent<Text>();
 	}
 
-	private void InitDialogContentList() {
-		// act 1
-		contentList.Add("这个影子简直是像活着的一样......");
-		contentList.Add("但是，很熟悉的感觉，像是似曾相识，很久以前就很熟悉的温柔的气息");
-		contentList.Add("能听见我说话么？");
-		contentList.Add("你给我一种好熟悉的感觉啊。");
-
-		// act 2
-		contentList.Add("你收集这些灵魂是为了什么？");
-		contentList.Add("不知道，只是下意识的");
-		contentList.Add("被关在这里也太可怜了");
-		contentList.Add("唔......");
-		contentList.Add("你的心里缺了一块，但你却浑然不知。");
-		contentList.Add("？！！");
-		contentList.Add("你把你的心的一部分给了一个人，你认为除了他谁都不配拥有。\n但也正因为如此，你才能凭借这仅有的维系来到这里啊。");
-		contentList.Add("......");
-		contentList.Add("我们做个交易，你把这些灵魂给我，我告诉你怎么去寻找那一片心的碎片。");
-		contentList.Add("成交。");
-
-		contentList.Add("");
-		contentList.Add("");
-		contentList.Add("");
-		contentList.Add("");
-		contentList.Add("");
-		contentList.Add("");
-		contentList.Add("");
-		contentList.Add("");
-		contentList.Add("");
-
-	
-	}
 
 	// Update is called once per frame
 	void Update() {
-		if (Input.anyKeyDown) {
-			content.text = "";
-			if (index < contentList.Count) {
-				content.DOText(contentList[index++], 2);
+		ShowDialog();
+	}
+
+	public void TriggerAct() {
+		if (segments.Count > 0) {
+			if (!hasPlayedAct1) {
+				UpdateContentList();
+				hasPlayedAct1 = true;
+			} else if (!hasPlayedAct2) {
+				UpdateContentList();
+				hasPlayedAct2 = true;
+			} else if (!hasPlayedAct3) {
+				UpdateContentList();
+				hasPlayedAct3 = true;
+			} else if (!hasPlayedAct4) {
+				UpdateContentList();
+				hasPlayedAct4 = true;
 			}
+
 		}
 	}
 
+	private void UpdateContentList() {
+		contentList.Clear();
+		// 触发对话框
+		contentList = segments[0];
+		segments.RemoveAt(0);
+		ifPlayNext = true;
+		string[] strings = contentList[0].Split('*');
+		contentList.RemoveAt(0);
+		if (strings.Length != 2) {
+			return;
+		}
+		text.DOText(strings[1], 1);
+	}
+
+	private void ShowDialog() {
+		if (contentList.Count <= 0) {
+			// 隐藏对话框
+			dialog.GetComponent<RectTransform>().anchoredPosition = Vector2.down * 1000;
+			return;
+		} else {
+			dialog.GetComponent<RectTransform>().anchoredPosition = dialogRectShowing;
+			if (Input.anyKeyDown && ifPlayNext && contentList.Count > 0) {
+				text.DOText("", 0.0001f);
+				string[] strings = contentList[0].Split('*');
+				contentList.RemoveAt(0);
+				if (strings.Length != 2) {
+					return;
+				}
+				// 换对话框处理
+				if (strings[1] != null) {
+					tweener = text.DOText(strings[1], 1);
+					tweener.OnComplete(() => {
+						ifPlayNext = true;
+					});
+					ifPlayNext = false;
+				}
+			} else if (Input.anyKeyDown && !ifPlayNext) {
+				tweener.Goto(1);
+				ifPlayNext = true;
+			}
+		}
+		
+	}
 }

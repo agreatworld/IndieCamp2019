@@ -8,6 +8,8 @@ TagManager:
   - Goast
   - Forward
   - Slider
+  - DialogContent
+  - Cat
   layers:
   - Default
   - TransparentFX

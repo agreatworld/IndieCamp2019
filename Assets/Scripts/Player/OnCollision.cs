@@ -13,13 +13,13 @@ public class OnCollision : MonoBehaviour {
 	public float skinWidth = 0.02f;
 	private int horizontalRayCount;
 	private int verticalRayCount;
-
+	public DialogContentController dialogContentController;
 	public void Start() {
 		controller = GetComponent<PlayerController>();
 		collider = GetComponent<BoxCollider2D>();
 		verticalRayCount = (int)(collider.bounds.extents.x * 2 / density);
 		horizontalRayCount = (int)(collider.bounds.extents.y * 2 / density);
-	}
+	} 
 
 	// Update is called once per frame
 	public void Update() {
@@ -83,7 +83,13 @@ public class OnCollision : MonoBehaviour {
 	public virtual void HandleHits() {
 		foreach (var hit in hits) {
 			if (hit.collider != null) {
-				//Debug.Log($"碰撞检测到 {hit.transform.name}");
+				if (hit.transform.name == "TriggerForAct1") {
+					DestroyImmediate(hit.transform.gameObject);
+					dialogContentController.TriggerAct();
+				} else if (hit.transform.name == "Cat") {
+					DestroyImmediate(hit.transform.gameObject);
+					dialogContentController.TriggerAct();
+				}
 			}
 		}
 	}
