@@ -4,14 +4,20 @@ using System;
 
 public class BackgroundManager : MonoBehaviour {
 
-	public GameObject background;
+	private GameObject background;
 
 	public List<GameObject> backgroundList = new List<GameObject>();
 
-	public new Camera camera;
+	private new Camera camera;
 
-	public PlayerController controller;
+	private PlayerController controller;
 
+
+	private void Start() {
+		background = Resources.Load<GameObject>("Background");
+		camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+		controller = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+	}
 
 	// Update is called once per frame
 	void Update() {

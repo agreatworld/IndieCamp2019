@@ -14,7 +14,7 @@ public class CameraFollowPlayer : MonoBehaviour {
 	/// <summary>
 	/// 跟随目标
 	/// </summary>
-	public GameObject target;
+	private GameObject target;
 
 	/// <summary>
 	/// 相机移动的时长
@@ -33,6 +33,7 @@ public class CameraFollowPlayer : MonoBehaviour {
 	void Start() {
 		camera = GetComponent<Camera>();
 		cameraViewWidthExtends = camera.orthographicSize * camera.aspect;
+		target = GameObject.FindGameObjectWithTag("Player");
 		controller = target.GetComponent<PlayerController>();
 	}
 
