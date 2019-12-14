@@ -10,6 +10,7 @@ public class Goast : MonoBehaviour
     private GameObject player;
     public float protectRange = 2f;
     public float attackRange = 2.5f;
+    public bool catched = false;
 
     private void Awake()
     {
@@ -19,8 +20,12 @@ public class Goast : MonoBehaviour
     void Update()
     {
         Vector3 movePos = Composite();
-        Move(movePos);
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        if (catched)
+        {
+            Catched();
+        }
+        Move(movePos);
     }
     private void Move(Vector2 move)
     {
@@ -38,7 +43,7 @@ public class Goast : MonoBehaviour
         }
         else
         {
-            if ((gameObject.transform.position - player.transform.position).magnitude < attackRange)
+            if ((gameObject.transform.position - player.transform.position).magnitude < attackRange&&catched==false)
             {
                 Debug.Log("Attack");
                 vec = Vector3.zero;
@@ -60,5 +65,11 @@ public class Goast : MonoBehaviour
     public Vector3 GetVerticalDir(Vector3 dir)
     {
         return new Vector3(-dir.y, dir.x).normalized;
+    }
+    public void Catched()
+    {
+        if (speed.CompareTo(0f)<0.01f)
+            speed = 0.05f;
+        speed -= 0.05f;
     }
 }

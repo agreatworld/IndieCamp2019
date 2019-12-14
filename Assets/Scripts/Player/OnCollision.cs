@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class OnCollision : MonoBehaviour {
 
-	protected List<RaycastHit2D> hits = new List<RaycastHit2D>();
+	public List<RaycastHit2D> hits = new List<RaycastHit2D>();
 	private PlayerController controller;
 	private new BoxCollider2D collider;
 	public float density = 0.2f;
@@ -35,14 +35,12 @@ public class OnCollision : MonoBehaviour {
 	/// </summary>
 	private void UpdateHits() {
 		hits.Clear();
-		int layerMask = 0;
-		layerMask = 1 << 8;
-		CastRaysWithLayerMask(layerMask);
+		CastRaysWithLayerMask();
 	}
 
 
 
-	private void CastRaysWithLayerMask(int layerMask) {
+	private void CastRaysWithLayerMask() {
 		RaycastHit2D hit = Physics2D.Raycast(Vector2.zero, Vector2.zero);
 		// 投射水平射线
 		float rayDistance = 1;
@@ -51,12 +49,12 @@ public class OnCollision : MonoBehaviour {
 			Vector2 rayDirection1 = Vector2.right; // 水平向右方向
 			Vector2 rayOrigin2 = new Vector2(collider.bounds.min.x - skinWidth, collider.bounds.min.y + i * density); // 水平向左的射线原点
 			Vector2 rayDirection2 = Vector2.left; // 水平向左方向
-			hit = Physics2D.Raycast(rayOrigin1, rayDirection1, rayDistance, layerMask);
+			hit = Physics2D.Raycast(rayOrigin1, rayDirection1, rayDistance);
 			Debug.DrawRay(rayOrigin1, rayDirection1.normalized * rayDistance, Color.red);
 			if (hit.collider != null) {
 				hits.Add(hit);
 			}
-			hit = Physics2D.Raycast(rayOrigin2, rayDirection2, rayDistance, layerMask);
+			hit = Physics2D.Raycast(rayOrigin2, rayDirection2, rayDistance);
 			Debug.DrawRay(rayOrigin2, rayDirection2.normalized * rayDistance, Color.red);
 			if (hit.collider != null) {
 				hits.Add(hit);
@@ -69,12 +67,12 @@ public class OnCollision : MonoBehaviour {
 			Vector2 rayDirection1 = Vector2.up; // 垂直向上方向
 			Vector2 rayOrigin2 = new Vector2(collider.bounds.min.x + i * density, collider.bounds.min.y - skinWidth); // 垂直向下的射线原点
 			Vector2 rayDirection2 = Vector2.down; // 垂直向下方向
-			hit = Physics2D.Raycast(rayOrigin1, rayDirection1, rayDistance, layerMask);
+			hit = Physics2D.Raycast(rayOrigin1, rayDirection1, rayDistance);
 			Debug.DrawRay(rayOrigin1, rayDirection1.normalized * rayDistance, Color.red);
 			if (hit.collider != null) {
 				hits.Add(hit);
 			}
-			hit = Physics2D.Raycast(rayOrigin2, rayDirection2, rayDistance, layerMask);
+			hit = Physics2D.Raycast(rayOrigin2, rayDirection2, rayDistance);
 			Debug.DrawRay(rayOrigin2, rayDirection2.normalized * rayDistance, Color.red);
 			if (hit.collider != null) {
 				hits.Add(hit);
@@ -88,6 +86,5 @@ public class OnCollision : MonoBehaviour {
 				//Debug.Log($"碰撞检测到 {hit.transform.name}");
 			}
 		}
-		hits.Clear();
 	}
 }

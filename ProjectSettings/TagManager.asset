@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Shadow
   - Goast
+  - Forward
+  - Slider
   layers:
   - Default
   - TransparentFX
