@@ -21,6 +21,10 @@ public class Player : MonoBehaviour
 	private new Camera camera;
 	private CameraFocus cameraFocus;
     private Animator anim;
+    public AudioClip receive;
+    public AudioClip close;
+    private AudioSource audio;
+    private bool receiving;
     private void Awake()
     {
         collision = GetComponent<OnCollision>();
@@ -31,6 +35,7 @@ public class Player : MonoBehaviour
 		cameraFocus = camera.GetComponent<CameraFocus>();
         Goast = GameObject.FindWithTag("Goast");
         anim = gameObject.GetComponent<Animator>();
+        audio = GetComponent<AudioSource>();
     }
     private void Start()
     {
@@ -51,6 +56,17 @@ public class Player : MonoBehaviour
             if (timer > maxAlone)
                 Dead(); 
         }
+        if (receiving)
+        {
+            if (timer > 4f)
+            {
+                audio.Stop();
+                audio.clip = close;
+                audio.Play();
+                timer = 0f;
+                receiving = false;
+            }
+        }
         hurt.color = new Color(1, 1, 1, 1 - hp / 100);
     }
     private void CatchGoast()
@@ -59,12 +75,12 @@ public class Player : MonoBehaviour
         {
             if (hits.Count != 0)
             {
-                Debug.Log(1);
                 for(int i = 0; i < hits.Count; i++)
                 {
-                    Debug.Log(hits[i].collider.name);
                     if (hits[i].collider.tag == "Goast")
                     {
+                        audio.clip = receive;
+                        audio.Play();
                         catching = true;
                         forward.fillAmount = 0.5f;
                         fightGoast = hits[i].collider.gameObject;
@@ -85,6 +101,8 @@ public class Player : MonoBehaviour
         }
         if (forward.fillAmount == 1)
         {
+            timer = 0f;
+            receiving = true;
 			cameraFocus.isFocusing = false;
 			Debug.Log("Win");
             catchCount++;
@@ -95,6 +113,7 @@ public class Player : MonoBehaviour
         }
         else if (forward.fillAmount == 0)
         {
+            audio.Stop();
 			cameraFocus.isFocusing = false;
 			slider.SetActive(false);
             catching = false;
@@ -109,9 +128,5 @@ public class Player : MonoBehaviour
     private void Dead()
     {
         Debug.Log("Dead");
-    }
-    private void ChangeHurt()
-    {
-       
     }
 }

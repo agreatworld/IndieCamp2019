@@ -1139,6 +1139,8 @@ MonoBehaviour:
   timer: 0
   alone: 1
   Goast: {fileID: 0}
+  receive: {fileID: 8300000, guid: 9cac70756012d89408ae2e935a1f575b, type: 3}
+  close: {fileID: 8300000, guid: 297c97877a4a77b4e90b0d19c99cec63, type: 3}
 --- !u!61 &1094285979
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2015,6 +2017,16 @@ PrefabInstance:
       propertyPath: steps.Array.data[11]
       value: 
       objectReference: {fileID: 8300000, guid: d42d7c2ef3bdf0740b8b4da9582974ad, type: 3}
+    - target: {fileID: 844710360164341551, guid: da466a7a4f8cdfa4ba84a4bc28448d9b,
+        type: 3}
+      propertyPath: receive
+      value: 
+      objectReference: {fileID: 8300000, guid: 9cac70756012d89408ae2e935a1f575b, type: 3}
+    - target: {fileID: 844710360164341551, guid: da466a7a4f8cdfa4ba84a4bc28448d9b,
+        type: 3}
+      propertyPath: close
+      value: 
+      objectReference: {fileID: 8300000, guid: 297c97877a4a77b4e90b0d19c99cec63, type: 3}
     - target: {fileID: 844710360164341552, guid: da466a7a4f8cdfa4ba84a4bc28448d9b,
         type: 3}
       propertyPath: m_LocalPosition.x

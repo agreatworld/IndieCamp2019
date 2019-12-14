@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour {
 	private void Start() {
 		animator = gameObject.GetComponent<Animator>();
         audio = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
-	}
+    }
 
 	// Update is called once per frame
 	void Update() {
@@ -40,7 +40,11 @@ public class PlayerController : MonoBehaviour {
 			translation = new Vector2(translationX, translation.y);
 		}
 		velocity = translation;
+        if (GetComponent<Player>().catching)
+            translation = Vector2.zero; 
 		transform.Translate(translation,Space.World);
+
+            
 		if (translation != Vector2.zero)
         {
 			animator.SetBool("IsRun", true);

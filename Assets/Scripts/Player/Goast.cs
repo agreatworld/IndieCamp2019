@@ -77,6 +77,7 @@ public class Goast : MonoBehaviour
         if (speed.CompareTo(0f)<0.01f)
             speed = 0.05f;
         speed -= 0.05f;
+        animator.SetBool("Attack", false);
     }
     private void Attack()
     {
