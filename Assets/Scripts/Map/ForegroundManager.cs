@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ForegroundManager : MonoBehaviour {
+
+	public GameObject foreground;
+
+	private List<GameObject> foregroundList = new List<GameObject>();
+
 	// Start is called before the first frame update
 	void Start() {
 
