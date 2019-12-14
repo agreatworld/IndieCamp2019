@@ -13,15 +13,18 @@ public class Goast : MonoBehaviour
     public bool catched = false;
     private float timer = 0f;
     public float attackInterval = 1f;
+    private Animator animator;
     private void Awake()
     {
         shadow = GameObject.FindWithTag("Shadow");
         player = GameObject.FindWithTag("Player");
+        animator = GetComponent<Animator>();
     }
     void Update()
     {
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.05f);
         Vector3 movePos = Composite();
-        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        
         if (catched)
         {
             Catched();
@@ -46,13 +49,15 @@ public class Goast : MonoBehaviour
         {
             if ((gameObject.transform.position - player.transform.position).magnitude < attackRange&&catched==false)
             {
+                gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1f);
+                animator.SetBool("Attack", true);
                 Attack();
                 vec = Vector3.zero;
             }
             else
             {
+                animator.SetBool("Attack", false);
                 vec = (player.transform.position - gameObject.transform.position).normalized;
-                
             }
             if (Vector3.Angle((shadow.transform.position - player.transform.position), (transform.position - shadow.transform.position)) < 90f)
             {
@@ -75,6 +80,7 @@ public class Goast : MonoBehaviour
     }
     private void Attack()
     {
+       
         timer += Time.deltaTime;
         if(timer>attackInterval)
         {

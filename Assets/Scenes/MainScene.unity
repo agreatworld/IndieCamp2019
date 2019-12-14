@@ -759,6 +759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a52450dd70647d4ba80676d2a3c4032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isFocusing: 0
 --- !u!1 &560018473
 GameObject:
   m_ObjectHideFlags: 0
@@ -1548,6 +1549,31 @@ MonoBehaviour:
   - {fileID: 2093419934}
   - {fileID: 93183264}
   - {fileID: 728259633}
+--- !u!1 &1522769741 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7883674400045799080, guid: 7fa7f21340f3d22458fc518f2640fa0c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1773617950}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1522769746
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522769741}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a13648480d9bb4243a3396b455b033f7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1644186093
 GameObject:
   m_ObjectHideFlags: 0
@@ -1679,20 +1705,25 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7883674400045799094, guid: 7fa7f21340f3d22458fc518f2640fa0c,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7883674400045799095, guid: 7fa7f21340f3d22458fc518f2640fa0c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 16.78
+      value: 12.08
       objectReference: {fileID: 0}
     - target: {fileID: 7883674400045799095, guid: 7fa7f21340f3d22458fc518f2640fa0c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.05
+      value: -1.32
       objectReference: {fileID: 0}
     - target: {fileID: 7883674400045799095, guid: 7fa7f21340f3d22458fc518f2640fa0c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.08
       objectReference: {fileID: 0}
     - target: {fileID: 7883674400045799095, guid: 7fa7f21340f3d22458fc518f2640fa0c,
         type: 3}

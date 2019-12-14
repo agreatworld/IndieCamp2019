@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
         hurt = GameObject.FindWithTag("Hurt").GetComponent<Image>();
 		camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 		cameraFocus = camera.GetComponent<CameraFocus>();
+        Goast = GameObject.FindWithTag("Goast");
     }
     private void Start()
     {
@@ -52,7 +53,7 @@ public class Player : MonoBehaviour
     }
     private void CatchGoast()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E)&&Goast.GetComponent<Goast>().catched)
         {
             if (hits.Count != 0)
             {

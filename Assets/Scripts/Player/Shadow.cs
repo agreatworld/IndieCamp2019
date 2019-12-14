@@ -36,12 +36,13 @@ public class Shadow : MonoBehaviour
     }
     private void Probe()
     {
-        if (goasts.Count > 0)
-            for (int i = 0; i < goasts.Count; i++)
+        for (int i = 0; i < goasts.Count; i++)
+        {
+            if (goasts[i] != null)
             {
                 if ((goasts[i].transform.position - gameObject.transform.position).magnitude < probeRange)
                 {
-                    goasts[i].GetComponent<SpriteRenderer>().enabled = true;
+                    goasts[i].GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
                     goasts[i].GetComponent<Goast>().catched = true;
                 }
                 if ((goasts[i].transform.position - gameObject.transform.position).magnitude > probeRange)
@@ -51,6 +52,8 @@ public class Shadow : MonoBehaviour
                 }
 
             }
+
+        }
     }
     private void MoveByGetAxis()
     {
