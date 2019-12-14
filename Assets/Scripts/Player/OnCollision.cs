@@ -86,9 +86,10 @@ public class OnCollision : MonoBehaviour {
 				if (hit.transform.name == "TriggerForAct1") {
 					DestroyImmediate(hit.transform.gameObject);
 					dialogContentController.TriggerAct();
-				} else if (hit.transform.name == "Cat") {
-					DestroyImmediate(hit.transform.gameObject);
+				} else if (hit.transform.CompareTag("Cat")) {
 					dialogContentController.TriggerAct();
+					hit.transform.GetComponent<Cat>()?.HitByPlayer();
+					return;
 				}
 			}
 		}

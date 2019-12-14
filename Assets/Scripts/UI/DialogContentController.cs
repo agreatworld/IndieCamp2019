@@ -15,12 +15,17 @@ public class DialogContentController : MonoBehaviour {
 	private Tweener tweener;
 	public List<string> contentList = new List<string>();
 	private List<List<string>> segments = new List<List<string>>();
-	public Transform player;
+	private Transform player;
 	private bool hasPlayedAct1 = false;
 	private bool hasPlayedAct2 = false;
 	private bool hasPlayedAct3 = false;
 	private bool hasPlayedAct4 = false;
-
+	private Player playerComponent;
+	private bool hasShowCatTwice = false;
+	public float animationPlayTime = 6;
+	private float animationPlayTimer = 0;
+	private bool isTimingForAnimation = false;
+	public int count;
 	// Start is called before the first frame update
 	void Start() {
 		// 读取剧本
@@ -36,15 +41,38 @@ public class DialogContentController : MonoBehaviour {
 			// 向用户显示出错消息
 			Debug.LogError(e.Message);
 		}
+		player = GameObject.FindGameObjectWithTag("Player").transform;
 		dialogRect = dialog.GetComponent<RectTransform>().anchoredPosition;
 		dialogRectShowing = dialogRect;
 		text = GetComponent<Text>();
+		playerComponent = player.GetComponent<Player>();
+
 	}
 
 
 	// Update is called once per frame
 	void Update() {
 		ShowDialog();
+		if (!hasShowCatTwice) {
+			ShowCat();
+		}
+		if (isTimingForAnimation) {
+			if (animationPlayTimer > animationPlayTime) {
+				// 开启第四幕的对话框
+				TriggerAct();
+				animationPlayTimer = 0;
+				isTimingForAnimation = false;
+			}
+			animationPlayTimer += Time.deltaTime;
+		}
+		
+	}
+
+	private void ShowCat() {
+		if (hasPlayedAct2 && !hasPlayedAct3 && /*count*/playerComponent.catchCount >= 6) {
+			GameObject.FindGameObjectWithTag("Cat").GetComponent<Cat>().ResetState();
+			hasShowCatTwice = true;
+		}
 	}
 
 	public void TriggerAct() {
@@ -85,11 +113,16 @@ public class DialogContentController : MonoBehaviour {
 	private void ShowDialog() {
 		if (contentList.Count <= 0) {
 			// 隐藏对话框
-			dialog.GetComponent<RectTransform>().anchoredPosition = Vector2.down * 1000;
+			if (segments.Count > 0) {
+				dialog.GetComponent<RectTransform>().anchoredPosition = Vector2.down * 1000;
+			}
+			if (hasPlayedAct1 && hasPlayedAct2 && hasPlayedAct3 && !hasPlayedAct4) {
+				isTimingForAnimation = true;
+			}
 			return;
 		} else {
 			dialog.GetComponent<RectTransform>().anchoredPosition = dialogRectShowing;
-			if (Input.anyKeyDown && ifPlayNext && contentList.Count > 0) {
+			if (Input.GetKeyDown(KeyCode.Space) && ifPlayNext && contentList.Count > 0) {
 				text.DOText("", 0.0001f);
 				string[] strings = contentList[0].Split('*');
 				contentList.RemoveAt(0);

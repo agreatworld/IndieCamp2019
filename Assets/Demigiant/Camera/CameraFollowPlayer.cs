@@ -66,7 +66,6 @@ public class CameraFollowPlayer : MonoBehaviour {
 				isMovingLeft = false;
 			}
 			transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref currentVelocity, smoothTime);
-			Debug.Log(targetPosition);
 		}
 		
 
