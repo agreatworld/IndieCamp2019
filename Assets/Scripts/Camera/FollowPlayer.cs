@@ -49,7 +49,6 @@ public class FollowPlayer : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
-		Debug.Log(isMovingRight);
 		// 判断镜头是否需要移动
 		if (target.transform.position.x - transform.position.x > cameraViewWidthExtends * 0.75f) {
 			isMovingRight = true;

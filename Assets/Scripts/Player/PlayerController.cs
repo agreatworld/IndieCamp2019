@@ -10,6 +10,12 @@ public class PlayerController : MonoBehaviour {
 	[NonSerialized]
 	public Vector2 velocity;
 
+	public float minMovableY;
+	public float maxMovableY;
+	private void Start() {
+
+	}
+
 	// Update is called once per frame
 	void Update() {
 		MoveByGetAxis();
@@ -20,7 +26,12 @@ public class PlayerController : MonoBehaviour {
 	private void MoveByGetAxis() {
 		float translationX = Input.GetAxis("Horizontal") * Time.deltaTime * horizontalSpeed;
 		float translationY = Input.GetAxis("Vertical") * Time.deltaTime * verticalSpeed;
-		Vector2 translation = new Vector2(translationX, translationY);
+		if (transform.position.y + translationY > maxMovableY) {
+			translationY = Mathf.Abs(transform.position.y - maxMovableY) < 0.1f ? 0 : maxMovableY - transform.position.y;
+		} else if (transform.position.y + translationY < minMovableY) {
+			translationY = Mathf.Abs(transform.position.y - minMovableY) < 0.1f ? 0 : transform.position.y - minMovableY;
+		}
+		Vector2 translation = new Vector2(translationX, Mathf.Clamp(translationY, minMovableY, maxMovableY));
 		velocity = translation;
 		transform.Translate(translation);
 	}
