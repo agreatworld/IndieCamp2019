@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FollowPlayer : MonoBehaviour {
+public class CameraFollowPlayer : MonoBehaviour {
 
 	/// <summary>
 	/// 摄像机
@@ -35,9 +35,9 @@ public class FollowPlayer : MonoBehaviour {
 
 	private PlayerController controller;
 
-	private bool isMovingRight = false;
+	public bool isMovingRight = false;
 
-	private bool isMovingLeft = false;
+	public bool isMovingLeft = false;
 
 	// Start is called before the first frame update
 	void Start() {
