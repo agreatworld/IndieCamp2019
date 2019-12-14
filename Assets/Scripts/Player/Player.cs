@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     private bool catching = false;
     private Image forward;
     private GameObject slider;
+    public int catchCount = 0;
     private void Awake()
     {
         collision = GetComponent<OnCollision>();
@@ -63,6 +64,7 @@ public class Player : MonoBehaviour
         if (forward.fillAmount == 1)
         {
             Debug.Log("Win");
+            catchCount++;
             slider.SetActive(false);
             catching = false;
         }
