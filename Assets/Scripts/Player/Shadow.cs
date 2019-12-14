@@ -49,6 +49,7 @@ public class Shadow : MonoBehaviour
                 {
                     goasts[i].GetComponent<Goast>().speed = 2.2f;
                     goasts[i].GetComponent<Goast>().catched = false;
+                    player.GetComponent<Player>().someBeCatched = false;
                 }
 
             }

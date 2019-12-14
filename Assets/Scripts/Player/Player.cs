@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     private float maxAlone = 60f;
     public bool alone=true;
     private Image hurt;
-    public GameObject Goast;
+    public bool someBeCatched;
 	private new Camera camera;
 	private CameraFocus cameraFocus;
     private Animator anim;
@@ -33,7 +33,6 @@ public class Player : MonoBehaviour
         hurt = GameObject.FindWithTag("Hurt").GetComponent<Image>();
 		camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 		cameraFocus = camera.GetComponent<CameraFocus>();
-        Goast = GameObject.FindWithTag("Goast");
         anim = gameObject.GetComponent<Animator>();
         audio = GetComponent<AudioSource>();
     }
@@ -71,7 +70,7 @@ public class Player : MonoBehaviour
     }
     private void CatchGoast()
     {
-        if (Input.GetKeyDown(KeyCode.E)&&Goast.GetComponent<Goast>().catched)
+        if (Input.GetKeyDown(KeyCode.E)&&someBeCatched)
         {
             if (hits.Count != 0)
             {
@@ -117,7 +116,7 @@ public class Player : MonoBehaviour
 			cameraFocus.isFocusing = false;
 			slider.SetActive(false);
             catching = false;
-            fightGoast.transform.position += (fightGoast.transform.position - transform.position).normalized * 0.2f;
+            fightGoast.transform.position += (fightGoast.transform.position - transform.position).normalized * 1f;
         }
             
     }

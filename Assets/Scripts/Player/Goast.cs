@@ -27,6 +27,7 @@ public class Goast : MonoBehaviour
         
         if (catched)
         {
+            player.GetComponent<Player>().someBeCatched = true;
             Catched();
         }
         Move(movePos);
