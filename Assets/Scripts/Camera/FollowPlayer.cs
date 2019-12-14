@@ -50,14 +50,14 @@ public class FollowPlayer : MonoBehaviour {
 	// Update is called once per frame
 	void Update() {
 		// 判断镜头是否需要移动
-		if (target.transform.position.x - transform.position.x > cameraViewWidthExtends * 0.75f) {
+		if (target.transform.position.x - transform.position.x > cameraViewWidthExtends * 0.5f) {
 			isMovingRight = true;
-		} else if (transform.position.x - target.transform.position.x > cameraViewWidthExtends * 0.75f) {
+		} else if (transform.position.x - target.transform.position.x > cameraViewWidthExtends * 0.5f) {
 			isMovingLeft = true;
 		}
 		if (isMovingRight) {
 			// 镜头右移
-			Vector3 targetPosition = target.transform.TransformPoint(-cameraViewWidthExtends * 0.75f, 0, -10);
+			Vector3 targetPosition = target.transform.TransformPoint(-cameraViewWidthExtends * 0.5f, 0, -10);
 			targetPosition.y = 0;
 			if (controller.velocity.x < 0) {
 				isMovingRight = false;
@@ -66,7 +66,7 @@ public class FollowPlayer : MonoBehaviour {
 			transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref currentVelocity, smoothTime);
 
 		} else if (isMovingLeft) {
-			Vector3 targetPosition = target.transform.TransformPoint(cameraViewWidthExtends * 0.75f, 0, -10);
+			Vector3 targetPosition = target.transform.TransformPoint(cameraViewWidthExtends * 0.5f, 0, -10);
 			targetPosition.y = 0;
 			if (controller.velocity.x > 0) {
 				isMovingLeft = false;
