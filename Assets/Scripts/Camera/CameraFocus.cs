@@ -28,17 +28,20 @@ public class CameraFocus : MonoBehaviour {
 	}
 
 	private void Update() {
-		if (Input.GetKeyDown(KeyCode.T)) {
+		if (isFocusing) {
 			if (!hasFocused) {
 				Vector3 origin = (player.transform.position + ghost.transform.position) / 2;
 				origin.z = -10;
 				float extendsY = Mathf.Abs(player.transform.position.y - ghost.transform.position.y) + playerSprite.bounds.extents.y + ghostSprite.bounds.extents.y;
-				extendsY *= 0.5f;
+				extendsY *= 0.35f;
 				Debug.Log(extendsY);
 				transform.DOMove(origin, 0.3f);
 				camera.DOOrthoSize(extendsY, 0.3f);
 				hasFocused = true;
 			}
+		} else if (hasFocused) {
+			transform.DOMove(originalPosition, 0.3f);
+			camera.DOOrthoSize(size, 0.3f);
 		}
 	}
 }
