@@ -75,7 +75,6 @@ public class Goast : MonoBehaviour
     }
     private void Attack()
     {
-        Debug.Log(timer);
         timer += Time.deltaTime;
         if(timer>attackInterval)
         {

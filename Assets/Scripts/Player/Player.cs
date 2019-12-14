@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,12 +18,16 @@ public class Player : MonoBehaviour
     public bool alone=true;
     private Image hurt;
     public GameObject Goast;
+	private new Camera camera;
+	private CameraFocus cameraFocus;
     private void Awake()
     {
         collision = GetComponent<OnCollision>();
         forward = GameObject.FindWithTag("Forward").GetComponent<Image>();
         slider = GameObject.FindWithTag("Slider");
         hurt = GameObject.FindWithTag("Hurt").GetComponent<Image>();
+		camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+		cameraFocus = camera.GetComponent<CameraFocus>();
     }
     private void Start()
     {
@@ -72,11 +76,14 @@ public class Player : MonoBehaviour
         forward.fillAmount -= 0.005f;
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            forward.fillAmount += 0.1f;
+			cameraFocus.isFocusing = true;
+			camera.transform.DOShakePosition(0.5f, 0.2f);
+            forward.fillAmount += 0.07f;
         }
         if (forward.fillAmount == 1)
         {
-            Debug.Log("Win");
+			cameraFocus.isFocusing = false;
+			Debug.Log("Win");
             catchCount++;
             slider.SetActive(false);
             catching = false;
@@ -84,7 +91,8 @@ public class Player : MonoBehaviour
         }
         else if (forward.fillAmount == 0)
         {
-            slider.SetActive(false);
+			cameraFocus.isFocusing = false;
+			slider.SetActive(false);
             catching = false;
             fightGoast.transform.position += (fightGoast.transform.position - transform.position).normalized * 0.2f;
         }
