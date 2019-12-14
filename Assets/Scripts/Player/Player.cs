@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     public GameObject Goast;
 	private new Camera camera;
 	private CameraFocus cameraFocus;
+    private Animator anim;
     private void Awake()
     {
         collision = GetComponent<OnCollision>();
@@ -29,6 +30,7 @@ public class Player : MonoBehaviour
 		camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 		cameraFocus = camera.GetComponent<CameraFocus>();
         Goast = GameObject.FindWithTag("Goast");
+        anim = gameObject.GetComponent<Animator>();
     }
     private void Start()
     {
@@ -89,6 +91,7 @@ public class Player : MonoBehaviour
             slider.SetActive(false);
             catching = false;
             Destroy(fightGoast);
+            anim.SetTrigger("Rec");
         }
         else if (forward.fillAmount == 0)
         {

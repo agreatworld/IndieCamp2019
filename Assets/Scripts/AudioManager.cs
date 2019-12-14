@@ -4,27 +4,34 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    private AudioSource audio;
+    private AudioSource flip;
     private GameObject player;
     private GameObject[] goasts;
     float timer = 0f;
+    public AudioClip[] steps;
+    float timer2 = 0f;
+    public bool walking;
     private void Awake()
     {
-        audio=gameObject.GetComponent<AudioSource>();
         player = GameObject.FindWithTag("Player");
     }
     private void Update()
     {
         goasts = GameObject.FindGameObjectsWithTag("Goast");
-        PlayWithInterval(IntervalTime(FindCloseDistance(player, goasts)));
+        if (goasts.Length > 0)
+            PlayWithInterval(IntervalTime(FindCloseDistance(player, goasts)));
+        if (walking)
+            PlayStepClip();
     }
-    private float FindCloseDistance(GameObject target,GameObject[] game)
+    private float FindCloseDistance(GameObject target, GameObject[] game)
     {
         float distance = 100f;
-        for(int i = 0; i < game.Length; i++)
+        GameObject gameObject;
+        for (int i = 0; i < game.Length; i++)
         {
             if ((target.transform.position - game[i].transform.position).magnitude < distance)
             {
+                flip = game[i].GetComponent<AudioSource>();
                 distance = (target.transform.position - game[i].transform.position).magnitude;
             }
         }
@@ -32,23 +39,34 @@ public class AudioManager : MonoBehaviour
     }
     private float IntervalTime(float distance)
     {
-        if (distance > 10)
-        {
-            return 5f;
-        }
-        else if (distance < 4)
+        float i = distance / 6;
+
+        if (distance <= 3f)
             return 0.5f;
-        else
-            return 1f;
+        return i;
     }
     private void PlayWithInterval(float interval)
     {
         timer += Time.deltaTime;
         if (timer > interval)
         {
-            audio.Play();
+            flip.Play();
             timer = 0f;
         }
+    }
+    private void PlayStepClip()
+    {
+        timer2 += Time.deltaTime;
+        if (timer2 > 0.5f)
+        {
+            AudioSource source = player.GetComponent<AudioSource>();
+            AudioClip clip;
+            clip = steps[Random.Range(0, 12)];
+            source.clip = clip;
+            source.Play();
+            timer2 = 0f;
+        }
+
     }
 
 }

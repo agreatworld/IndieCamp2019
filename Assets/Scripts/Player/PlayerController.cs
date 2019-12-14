@@ -8,13 +8,13 @@ public class PlayerController : MonoBehaviour {
     private float speed = 5.6f;
 	[NonSerialized]
 	public Vector2 velocity;
-
+    public AudioManager audio;
 	public float minMovableY;
 	public float maxMovableY;
 	private Animator animator;
 	private void Start() {
 		animator = gameObject.GetComponent<Animator>();
-
+        audio = GameObject.FindWithTag("AudioManager").GetComponent<AudioManager>();
 	}
 
 	// Update is called once per frame
@@ -41,10 +41,17 @@ public class PlayerController : MonoBehaviour {
 		}
 		velocity = translation;
 		transform.Translate(translation,Space.World);
-		if (translation != Vector2.zero) {
+		if (translation != Vector2.zero)
+        {
 			animator.SetBool("IsRun", true);
-		} else
+            audio.walking = true;
+		}
+        else
+        {
 			animator.SetBool("IsRun", false);
+            audio.walking = false;
+        }
+
 		if (translation.x > 0)
 			gameObject.transform.eulerAngles = new Vector3(0, 0, 0);
 		if (translation.x < 0)
