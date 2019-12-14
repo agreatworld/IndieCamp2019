@@ -20,6 +20,7 @@ public class DialogContentController : MonoBehaviour {
 	private bool hasPlayedAct2 = false;
 	private bool hasPlayedAct3 = false;
 	private bool hasPlayedAct4 = false;
+
 	// Start is called before the first frame update
 	void Start() {
 		// 读取剧本
@@ -76,7 +77,9 @@ public class DialogContentController : MonoBehaviour {
 		if (strings.Length != 2) {
 			return;
 		}
-		text.DOText(strings[1], 1);
+		if (strings[1] != null) {
+			text.DOText(strings[1], 1);
+		}
 	}
 
 	private void ShowDialog() {
