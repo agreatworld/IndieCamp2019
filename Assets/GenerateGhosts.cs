@@ -12,7 +12,7 @@ public class GenerateGhosts : MonoBehaviour {
 	}
 
 	private void OnDestroy() {
-		if (GameObject.FindGameObjectsWithTag("Goast").Length == 1) {
+		if (GameObject.FindGameObjectsWithTag("Goast").Length == 0) {
 			if (dialogContentController.hasPlayedAct1 && dialogContentController.hasPlayedAct2 && !dialogContentController.hasPlayedAct3 && !dialogContentController.hasPlayedAct4) {
 				dialogContentController.generateTheOtherThreeGhosts = true;
 			}

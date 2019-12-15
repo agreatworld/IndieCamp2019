@@ -72,9 +72,10 @@ public class DialogContentController : MonoBehaviour {
 			animationPlayTimer += Time.deltaTime;
 		}
 		if (generateTheOtherThreeGhosts) {
-			Instantiate(ghost, player.transform.position - Vector3.right, Quaternion.identity);
-			Instantiate(ghost, player.transform.position - Vector3.up * 1.5f, Quaternion.identity);
-			Instantiate(ghost, player.transform.position - Vector3.left * 2, Quaternion.identity);
+			Instantiate(ghost, player.transform.position - Vector3.right * 10, Quaternion.identity);
+			Instantiate(ghost, player.transform.position - Vector3.up * 15f, Quaternion.identity);
+			Instantiate(ghost, player.transform.position - Vector3.left * 23, Quaternion.identity);
+			generateTheOtherThreeGhosts = false;
 		}
 	}
 
@@ -141,9 +142,9 @@ public class DialogContentController : MonoBehaviour {
 				if (hasPlayedAct1 && hasPlayedAct2 && !hasPlayedAct3 && !hasPlayedAct4) {
 					if (contentList.Count == 0) {
 						// 分两批生成六只鬼怪
-						Instantiate(ghost, player.transform.position + Vector3.down, Quaternion.identity);
-						Instantiate(ghost, player.transform.position + Vector3.right * 1.5f, Quaternion.identity);
-						Instantiate(ghost, player.transform.position + Vector3.up * 2, Quaternion.identity);
+						Instantiate(ghost, player.transform.position + Vector3.down*5, Quaternion.identity);
+						Instantiate(ghost, player.transform.position + Vector3.right * 10f, Quaternion.identity);
+						Instantiate(ghost, player.transform.position + Vector3.up * 12, Quaternion.identity);
 					}
 				}
 				if (strings.Length != 2) {
