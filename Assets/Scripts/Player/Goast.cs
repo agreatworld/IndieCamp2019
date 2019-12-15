@@ -27,7 +27,7 @@ public class Goast : MonoBehaviour
         
         if (catched)
         {
-            player.GetComponent<Player>().someBeCatched = true;
+            player.GetComponent<Player>().someBeCatched=true;
             Catched();
         }
         Move(movePos);
@@ -87,6 +87,7 @@ public class Goast : MonoBehaviour
         if(timer>attackInterval)
         {
             player.GetComponent<Player>().hp -= 1.5f;
+            player.GetComponent<Player>().anim.SetTrigger("Hurt");
             timer = 0f;
         }
     }

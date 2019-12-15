@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     public bool someBeCatched;
 	private new Camera camera;
 	private CameraFocus cameraFocus;
-    private Animator anim;
+    public Animator anim;
     public AudioClip receive;
     public AudioClip close;
     private AudioSource audio;
