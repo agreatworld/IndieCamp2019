@@ -72,13 +72,14 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E)&&someBeCatched)
         {
-            if (hits.Count != 0)
+			if (hits.Count != 0)
             {
                 for(int i = 0; i < hits.Count; i++)
                 {
                     if (hits[i].collider.tag == "Goast")
                     {
-                        audio.clip = receive;
+						cameraFocus.isFocusing = true;
+						audio.clip = receive;
                         audio.Play();
                         catching = true;
                         forward.fillAmount = 0.5f;
@@ -94,7 +95,6 @@ public class Player : MonoBehaviour
         forward.fillAmount -= 0.005f;
         if (Input.GetKeyDown(KeyCode.Space))
         {
-			cameraFocus.isFocusing = true;
 			camera.transform.DOShakePosition(0.3f, 0.08f);
             forward.fillAmount += 0.07f;
         }
