@@ -40,7 +40,7 @@ public class CameraFocus : MonoBehaviour {
 				hasFocused = true;
 			}
 		} else if (hasFocused) {
-			transform.DOMove(originalPosition, 0.3f);
+			transform.DOMove(new Vector3(player.transform.position.x, 0, -10), 0.3f);
 			camera.DOOrthoSize(size, 0.3f);
 		}
 	}

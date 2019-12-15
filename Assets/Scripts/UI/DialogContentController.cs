@@ -4,7 +4,7 @@ using DG.Tweening;
 using System.Collections.Generic;
 using System.IO;
 using System;
-
+using System.Collections;
 public class DialogContentController : MonoBehaviour {
 
 	private Text text;
@@ -16,16 +16,22 @@ public class DialogContentController : MonoBehaviour {
 	public List<string> contentList = new List<string>();
 	private List<List<string>> segments = new List<List<string>>();
 	private Transform player;
-	private bool hasPlayedAct1 = false;
-	private bool hasPlayedAct2 = false;
-	private bool hasPlayedAct3 = false;
-	private bool hasPlayedAct4 = false;
+	public bool hasPlayedAct1 = false;
+	public bool hasPlayedAct2 = false;
+	public bool hasPlayedAct3 = false;
+	public bool hasPlayedAct4 = false;
+	public bool generateTheOtherThreeGhosts = false;
 	private Player playerComponent;
 	private bool hasShowCatTwice = false;
 	public float animationPlayTime = 6;
 	private float animationPlayTimer = 0;
 	private bool isTimingForAnimation = false;
 	public int count;
+	public Image background;
+	public Sprite playerDialogBackground;
+	public Sprite NPCDialogBackground;
+	public AudioClip clip;
+	public GameObject ghost;
 	// Start is called before the first frame update
 	void Start() {
 		// 读取剧本
@@ -65,7 +71,11 @@ public class DialogContentController : MonoBehaviour {
 			}
 			animationPlayTimer += Time.deltaTime;
 		}
-		
+		if (generateTheOtherThreeGhosts) {
+			Instantiate(ghost, player.transform.position - Vector3.right, Quaternion.identity);
+			Instantiate(ghost, player.transform.position - Vector3.up * 1.5f, Quaternion.identity);
+			Instantiate(ghost, player.transform.position - Vector3.left * 2, Quaternion.identity);
+		}
 	}
 
 	private void ShowCat() {
@@ -106,7 +116,9 @@ public class DialogContentController : MonoBehaviour {
 			return;
 		}
 		if (strings[1] != null) {
+			background.sprite = int.Parse(strings[0]) == 1 ? playerDialogBackground : NPCDialogBackground;
 			text.DOText(strings[1], 1);
+			AudioSource.PlayClipAtPoint(clip, Vector2.zero);
 		}
 	}
 
@@ -126,11 +138,21 @@ public class DialogContentController : MonoBehaviour {
 				text.DOText("", 0.0001f);
 				string[] strings = contentList[0].Split('*');
 				contentList.RemoveAt(0);
+				if (hasPlayedAct1 && hasPlayedAct2 && !hasPlayedAct3 && !hasPlayedAct4) {
+					if (contentList.Count == 0) {
+						// 分两批生成六只鬼怪
+						Instantiate(ghost, player.transform.position + Vector3.down, Quaternion.identity);
+						Instantiate(ghost, player.transform.position + Vector3.right * 1.5f, Quaternion.identity);
+						Instantiate(ghost, player.transform.position + Vector3.up * 2, Quaternion.identity);
+					}
+				}
 				if (strings.Length != 2) {
 					return;
 				}
 				// 换对话框处理
 				if (strings[1] != null) {
+					background.sprite = int.Parse(strings[0]) == 1 ? playerDialogBackground : NPCDialogBackground;
+					AudioSource.PlayClipAtPoint(clip, Vector2.zero);
 					tweener = text.DOText(strings[1], 1);
 					tweener.OnComplete(() => {
 						ifPlayNext = true;
@@ -142,6 +164,6 @@ public class DialogContentController : MonoBehaviour {
 				ifPlayNext = true;
 			}
 		}
-		
+
 	}
 }
