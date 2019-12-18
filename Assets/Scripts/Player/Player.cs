@@ -84,6 +84,7 @@ public class Player : MonoBehaviour
                         catching = true;
                         forward.fillAmount = 0.5f;
                         fightGoast = hits[i].collider.gameObject;
+						return;
                     }
                 }
             }
